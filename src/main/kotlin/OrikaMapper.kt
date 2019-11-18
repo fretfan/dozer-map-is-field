@@ -2,6 +2,8 @@ import ma.glasnost.orika.CustomMapper
 import ma.glasnost.orika.MapperFactory
 import ma.glasnost.orika.MappingContext
 import ma.glasnost.orika.impl.ConfigurableMapper
+import ma.glasnost.orika.impl.DefaultMapperFactory
+
 
 class OrikaMapper : ConfigurableMapper() {
     override fun configure(factory: MapperFactory) {
@@ -26,12 +28,18 @@ class OrikaMapper : ConfigurableMapper() {
                         }
                     }
                 }
-            ).register()
+            )
+        .register()
 
 
         // register custom type convertor
         val converterFactory = factory.converterFactory
         converterFactory.registerConverter(IntToBooleanConvertor())
+    }
+
+    override fun configureFactoryBuilder(factoryBuilder: DefaultMapperFactory.Builder) {
+        factoryBuilder.mapNulls(false)
+        super.configureFactoryBuilder(factoryBuilder)
     }
 
 }

@@ -6,8 +6,11 @@ data class Source(
     var willMap3: String? = null,
     var willMap4: String? = null,
     var willMap5: Int? = null,
+//    @JvmField
     var isWillNotMap1: String? = null,
+//    @JvmField
     var isWillNotMap2: Boolean? = null,
-    var listOfText: List<String> = mutableListOf()
+    var listOfText: List<String> = mutableListOf(),
+    var emptyList: List<String>? = null
 
 )

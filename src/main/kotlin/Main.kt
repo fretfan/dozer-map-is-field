@@ -1,7 +1,5 @@
 import com.github.dozermapper.core.DozerBeanMapperBuilder
-import java.time.Instant
-import java.time.LocalDate
-import java.util.*
+import com.github.dozermapper.core.loader.api.BeanMappingBuilder
 
 
 fun main(args: Array<String>) {
@@ -9,9 +7,10 @@ fun main(args: Array<String>) {
 
 //    mapWithOrikaSimple()
 //    mapWithOrikaRenamedFields()
-//    mapWithOrikaComplex()
+    mapWithOrikaComplex()
 //    mapWithDozerSimple()
-    mapWithDozerRenamedFields()
+//    mapWithDozerRenamedFields()
+    mapWithDozerComplex()
 }
 
 fun mapWithOrikaSimple() {
@@ -57,11 +56,23 @@ fun mapWithOrikaRenamedFields() {
     println()
 }
 
+
 fun mapWithDozerSimple() {
     println("=========== mapping with Dozer =================")
     val source = getSourceSimple()
 
-    val mapper = DozerBeanMapperBuilder.buildDefault()
+    val builder = object : BeanMappingBuilder() {
+        override fun configure() {
+            mapping(
+                type(Source::class.java).accessible(),
+                type(Destination::class.java).accessible()
+            )
+                .fields(field("willMap5"), field("willMap3"))
+        }
+    }
+
+    val mapper = DozerBeanMapperBuilder.create().withMappingBuilder(builder).build()
+
     val destObject = mapper.map(source, Destination::class.java)
     println("Source:      ${source}")
     println("Destination: ${destObject}")
@@ -81,6 +92,34 @@ fun mapWithDozerRenamedFields() {
     val destObject = mapper.map(source, DestinationRenamedFields::class.java)
     println("Source:      ${source}")
     println("Destination: ${destObject}")
+    println()
+}
+
+fun mapWithDozerComplex() {
+    println("=========== mapping with dozer to DestinationCustomStructure=================")
+    val source = Source2()
+    source.one = "one"
+    source.two = true
+    source.three = "three"
+    source.five = 55
+    source.listOfText = mutableListOf("one", "two")
+
+    val builder = object : BeanMappingBuilder() {
+        override fun configure() {
+            mapping(
+                type(Source2::class.java),
+                type(DestinationCustomStructure::class.java)
+            )
+                .fields("one", "nested.one")
+                .fields("two", "nested.two")
+        }
+    }
+
+
+    val mapper = DozerBeanMapperBuilder.create().withMappingBuilder(builder).build()
+    val destObject2 = mapper.map(source, DestinationCustomStructure::class.java)
+    println("Source:      ${source}")
+    println("Destination: ${destObject2}")
     println()
 }
 

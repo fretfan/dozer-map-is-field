@@ -4,6 +4,9 @@ data class Destination(
     var willMap3: Boolean? = null,
     var willMap4: Boolean? = null,
     var willMap5: Boolean? = null,
+//    @JvmField
     var isWillNotMap1: String? = null,
-    var isWillNotMap2: Boolean? = null
+//    @JvmField
+    var isWillNotMap2: Boolean? = null,
+    var emptyList: List<String>? = mutableListOf()
 )
