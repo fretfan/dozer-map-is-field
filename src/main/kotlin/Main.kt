@@ -29,10 +29,10 @@ fun mapWithOrikaComplex() {
     println("=========== mapping with orika to DestinationCustomStructure=================")
     val source = Source2()
     source.one = "one"
-    source.two = true
+    source.two = "true"
     source.three = "three"
     source.five = 55
-    source.listOfText = mutableListOf("one", "two")
+    source.listOfText = null
 
     val mapper = OrikaMapper()
     val destObject2 = mapper.map(source, DestinationCustomStructure::class.java)
@@ -45,7 +45,7 @@ fun mapWithOrikaRenamedFields() {
     println("=========== mapping with orika to DestinationRenamedFields=================")
     val source = Source2()
     source.one = "one"
-    source.two = true
+    source.two = "true"
     source.three = "three"
     source.listOfText = mutableListOf("one", "two")
 
@@ -83,7 +83,7 @@ fun mapWithDozerRenamedFields() {
     println("=========== mapping with Dozer DestinationRenamedFields =================")
     val source = Source2()
     source.one = "one"
-    source.two = true
+    source.two = "true"
     source.three = "three"
     source.listOfText = mutableListOf("one", "two")
 
@@ -99,24 +99,14 @@ fun mapWithDozerComplex() {
     println("=========== mapping with dozer to DestinationCustomStructure=================")
     val source = Source2()
     source.one = "one"
-    source.two = true
+    source.two = "true"
     source.three = "three"
     source.five = 55
-    source.listOfText = mutableListOf("one", "two")
-
-    val builder = object : BeanMappingBuilder() {
-        override fun configure() {
-            mapping(
-                type(Source2::class.java),
-                type(DestinationCustomStructure::class.java)
-            )
-                .fields("one", "nested.one")
-                .fields("two", "nested.two")
-        }
-    }
+    source.listOfText = null
 
 
-    val mapper = DozerBeanMapperBuilder.create().withMappingBuilder(builder).build()
+
+    val mapper = DozerBeanMapperBuilder.create().withMappingFiles("mapping.xml").build()
     val destObject2 = mapper.map(source, DestinationCustomStructure::class.java)
     println("Source:      ${source}")
     println("Destination: ${destObject2}")

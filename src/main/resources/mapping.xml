@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
+    <configuration>
+        <stop-on-errors>true</stop-on-errors>
+        <date-format>MM/dd/yyyy HH:mm</date-format>
+        <wildcard>true</wildcard>
+        <map-null>false</map-null>
+    </configuration>
+    <mapping>
+        <class-a>Source2</class-a>
+        <class-b>DestinationCustomStructure</class-b>
+        <field>
+            <a>one</a>
+            <b>nested.one</b>
+        </field>
+        <field>
+            <a>two</a>
+            <b>nested.two</b>
+        </field>
+    </mapping>
+</mappings>
