@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -16,39 +17,44 @@ class TestMappers {
     val list1: List<String> = listOf("one", "two")
 
     @Test
-    internal fun itMapsAllFields() {
-        val s = Source123()
-//        var dest = Destination123()
-//        val res = mapper.map(s, Destination123::class.java)
-
+    fun itMapsAllFields() {
         val source = Source(true, "alo", BigDecimal(42), testDate, testDateTime, listOf("one", "two"))
         val result = mapper.map(source, Destination::class.java)
 
-        Assertions.assertEquals(source.bool1, result.bool1)
-        Assertions.assertEquals(source.text1, result.text1)
-        Assertions.assertEquals(source.number1, result.number1)
-        Assertions.assertEquals(source.date1, result.date1)
-        Assertions.assertEquals(source.dateTime1, result.dateTime1)
-        Assertions.assertEquals(source.list1, result.list1)
-    }
-
-//        @Test
-    internal fun itDoesNotMapNullsIntoDestination() {
-        val source = Source2()
-        val result = mapper.map(source, Destination2::class.java)
-
-        Assertions.assertEquals(text1, result.text1)
-        Assertions.assertEquals(list1, result.list1)
+        assertEquals(source.bool1, result.bool1)
+        assertEquals(source.text1, result.text1)
+        assertEquals(source.number1, result.number1)
+        assertEquals(source.date1, result.date1)
+        assertEquals(source.dateTime1, result.dateTime1)
+        assertEquals(source.list1, result.list1)
     }
 
     @Test
-    internal fun itMapsIntoDestinationWithRenamedFields() {
+    fun itDoesNotMapNullsIntoDestination() {
+        val source = Source2()
+        val result = mapper.map(source, Destination2::class.java)
+
+        assertEquals(text1, result.text1)
+        assertEquals(list1, result.list1)
+    }
+
+    @Test
+    fun itMapsIntoDestinationWithRenamedFields() {
         val source = Source3(text1, text2, text3)
         val result = mapper.map(source, Destination3::class.java)
 
-        Assertions.assertEquals(text1, result.nested?.text11)
-        Assertions.assertEquals(text2, result.nested?.text22)
-        Assertions.assertEquals(text3, result.threeRenamed)
+        assertEquals(text1, result.nested?.text11)
+        assertEquals(text2, result.nested?.text22)
+        assertEquals(text3, result.threeRenamed)
+    }
+
+    @Test
+    fun itMapsBooleanFieldsStartingWithIs() {
+        val source = Source4( true)
+        val result = mapper.map(source, Destination4::class.java)
+
+        assertEquals(true, result.isBool1)
+        assertEquals(false, result.isBool2)
     }
 
     // todo test mapping with custom boolean converter
@@ -102,6 +108,15 @@ data class NestedDestination(
     var text22: String? = null
 )
 
+data class Source4(
+    var isBool1: Boolean? = null,
+    var isBool2: Boolean? = null
+)
+
+data class Destination4(
+    var isBool1: Boolean? = null,
+    var isBool2: Boolean? = false
+)
 
 
 

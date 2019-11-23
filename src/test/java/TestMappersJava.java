@@ -1,5 +1,5 @@
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +14,7 @@ public class TestMappersJava {
 //    var testDateTime: LocalDateTime = LocalDateTime.of(testDate, LocalTime.of(12, 11))
 //    val text1: String = "one"
 //    val list1: List<String> = listOf("one", "two")
+
 
     OrikaMapper mapper = new OrikaMapper();
     LocalDate testDate = LocalDate.of(2019, 2, 1);

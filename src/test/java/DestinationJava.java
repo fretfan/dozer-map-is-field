@@ -13,6 +13,19 @@ public class DestinationJava {
     String text2 = "alo";
 
 
+    public DestinationJava() {
+    }
+
+    public DestinationJava(Boolean bool1, String text1, BigDecimal number1, LocalDate date1, LocalDateTime dateTime1, List<String> list1, String text2) {
+        this.bool1 = bool1;
+        this.text1 = text1;
+        this.number1 = number1;
+        this.date1 = date1;
+        this.dateTime1 = dateTime1;
+        this.list1 = list1;
+        this.text2 = text2;
+    }
+
     public Boolean getBool1() {
         return bool1;
     }
