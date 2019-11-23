@@ -19,6 +19,10 @@ dependencies {
     compile("ma.glasnost.orika:orika-core:1.5.4")
     // https://mvnrepository.com/artifact/net.sf.dozer/dozer
 //    compile("net.sf.dozer:dozer:5.5.1")
+// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    testCompile( "org.junit.jupiter:junit-jupiter-engine:5.5.2")
+
+
 
 
 
