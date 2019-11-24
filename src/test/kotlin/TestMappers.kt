@@ -61,8 +61,29 @@ class TestMappers {
         assertEquals(false, result.isBool2)
     }
 
-    // todo test mapping with custom boolean converter
-    // todo test mapping with custom structure
+    @Test
+    fun itMapsStringToBooleanCustomConverter() {
+        val source = Source5("Y", 1)
+        val result = mapper.map(source, Destination5::class.java)
+
+        assertEquals(true, result.boolAsNumber)
+        assertEquals(true, result.boolAsText)
+    }
+
+    @Test
+    fun itMapsCustomStructure() {
+        val source = Source(testBool1, testText1, testNumber1, testDate, testDateTime, testList1)
+        val result = mapper.map(source, DestinationCustomStructure::class.java)
+
+        assertEquals(testBool1, result.bool1)
+        assertEquals(testText1, result.text1)
+        assertEquals(testNumber1, result.nested?.number1)
+        assertEquals(testDate, result.nested?.date1)
+        assertEquals(testDateTime, result.nested?.dateTime1)
+        assertEquals(testList1, result.nested?.list1)
+    }
+
+    // todo test mapping with same value name on different depth
 
 }
 
@@ -118,6 +139,29 @@ data class Source4(
 data class Destination4(
     var isBool1: Boolean? = null,
     var isBool2: Boolean? = false
+)
+
+data class Source5(
+    var boolAsText: String? = null,
+    var boolAsNumber: Int? = null
+)
+
+data class Destination5(
+    var boolAsText: Boolean? = null,
+    var boolAsNumber: Boolean? = null
+)
+
+data class DestinationCustomStructure(
+    var bool1: Boolean? = null,
+    var text1: String? = null,
+    var nested: NestedDestination2? = null
+)
+
+data class NestedDestination2(
+    var number1: BigDecimal? = null,
+    var date1: LocalDate? = null,
+    var dateTime1: LocalDateTime? = null,
+    var list1: List<String>? = null
 )
 
 

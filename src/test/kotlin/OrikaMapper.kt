@@ -1,4 +1,6 @@
+import ma.glasnost.orika.CustomMapper
 import ma.glasnost.orika.MapperFactory
+import ma.glasnost.orika.MappingContext
 import ma.glasnost.orika.constructor.ConstructorResolverStrategy
 import ma.glasnost.orika.impl.ConfigurableMapper
 import ma.glasnost.orika.impl.DefaultMapperFactory
@@ -16,27 +18,22 @@ class OrikaMapper : ConfigurableMapper() {
             .byDefault()
             .register()
 
-//        factory.classMap(Source2::class.java, DestinationCustomStructure::class.java)
-//            .byDefault()
-//            .customize(
-//                object : CustomMapper<Source2, DestinationCustomStructure>() {
-//                    override fun mapAtoB(
-//                        a: Source2?,
-//                        b: DestinationCustomStructure,
-//                        context: MappingContext?
-//                    ) {
-//                        if (a != null) {
-//                            b.nested = NestedDestination(a.one, a.two)
-//                        }
-//                    }
-//                }
-//            )
-//        .register()
+        factory.classMap(Source::class.java, DestinationCustomStructure::class.java)
+            .byDefault() // should map bool1 and text1 but could define in mapAToB also
+            .customize(object : CustomMapper<Source, DestinationCustomStructure>() {
+                override fun mapAtoB(a: Source?, b: DestinationCustomStructure?, context: MappingContext?) {
+                    if (a != null) {
+                        b?.nested = NestedDestination2(a.number1, a.date1, a.dateTime1, a.list1)
+                    }
+                }
+            })
+            .register()
 
 
         // register custom type convertor
-//        val converterFactory = factory.converterFactory
-//        converterFactory.registerConverter(IntToBooleanConvertor())
+        val converterFactory = factory.converterFactory
+        converterFactory.registerConverter(IntToBooleanConvertor())
+        converterFactory.registerConverter(StringToBooleanConvertor())
         super.configure(factory)
     }
 
