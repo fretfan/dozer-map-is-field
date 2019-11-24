@@ -74,9 +74,10 @@ class OrikaMapper : ConfigurableMapper() {
                     if (isZeroArgConstructor(constructorParams)) {
                         val constructorMapping = ConstructorResolverStrategy.ConstructorMapping<T>()
                         constructorMapping.constructor = aConstructor
+                        return constructorMapping
                     }
                 }
-                throw  RuntimeException("Zero-argument constructor not found! Declare one!")
+                throw Throwable("Zero-argument constructor not found! Declare one!") // orika suppresses RuntimeExceptions =(
             }
         })
         super.configureFactoryBuilder(factoryBuilder)
