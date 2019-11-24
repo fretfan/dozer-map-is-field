@@ -83,8 +83,23 @@ class TestMappers {
         assertEquals(testList1, result.nested?.list1)
     }
 
-    // todo test mapping with same value name on different depth
+    @Test
+    fun itDontMapFieldWithSameNameTwice() {
+        val source = Source6(testText1)
+        val result = mapper.map(source, Destination6::class.java)
 
+        assertEquals(null, result.text1)
+        assertEquals(testText1, result.nested?.text1)
+    }
+
+    @Test
+    fun itMapsFieldWithSameNameTwice() {
+        val source = Source6(testText1)
+        val result = mapper.map(source, Destination6B::class.java)
+
+        assertEquals(testText1, result.text1)
+        assertEquals(testText1, result.nested?.text1)
+    }
 }
 
 
@@ -162,6 +177,24 @@ data class NestedDestination2(
     var date1: LocalDate? = null,
     var dateTime1: LocalDateTime? = null,
     var list1: List<String>? = null
+)
+
+data class Source6(
+    var text1: String? = null
+)
+
+data class Destination6(
+    var text1: String? = null,
+    var nested: Destination6Nested? = Destination6Nested()
+)
+
+data class Destination6B(
+    var text1: String? = null,
+    var nested: Destination6Nested? = Destination6Nested()
+)
+
+data class Destination6Nested(
+    var text1: String? = null
 )
 
 
